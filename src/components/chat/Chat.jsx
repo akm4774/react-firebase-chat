@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./chat.css";
 import EmojiPicker from "emoji-picker-react";
 import {
@@ -13,16 +13,19 @@ import { useChatStore } from "../../lib/chatStore";
 import { useUserStore } from "../../lib/userStore";
 import upload from "../../lib/upload";
 import { format } from "timeago.js";
+import VideoCall from "../video/VideoCall";
 
 const Chat = () => {
   const [chat, setChat] = useState({});
   const [open, setOpen] = useState(false);
   const [text, setText] = useState("");
+  const [showVideoCall, setShowVideoCall] = useState(false);
+  
   const [img, setImg] = useState({
     file: null,
     url: "",
   });
-
+  
   const { currentUser } = useUserStore();
   const { chatId, user, isCurrentUserBlocked, isReceiverBlocked } =
     useChatStore();
@@ -111,22 +114,31 @@ const Chat = () => {
     }
   };
 
+  const handleVideoCallClick = () => {
+    setShowVideoCall(true);
+  };
+
   return (
     <div className="chat">
-      <div className="top">
-        <div className="user">
-          <img src={user?.avatar || "./avatar.png"} alt="" />
-          <div className="texts">
-            <span>{user?.username}</span>
-            <p>Lorem ipsum dolor, sit amet.</p>
+      {(
+        // Render VideoCall component if showVideoCall is true
+        <div className="top">
+          <div className="user">
+            <img src={user?.avatar || "./avatar.png"} alt="" />
+            <div className="texts">
+              <span>{user?.username}</span>
+              <p>Lorem ipsum dolor, sit amet.</p>
+            </div>
+          </div>
+          <div className="icons">
+            <img src="./phone.png" alt="" />
+            <a onClick={handleVideoCallClick}>
+              <img src="./video.png" alt="" / > {/* Render the video call button */}
+            </a>
+            <img src="./info.png" alt="" />
           </div>
         </div>
-        <div className="icons">
-          <img src="./phone.png" alt="" />
-          <img src="./video.png" alt="" />
-          <img src="./info.png" alt="" />
-        </div>
-      </div>
+      )}
       <div className="center">
         {chat?.messages?.map((message) => (
           <div
@@ -194,6 +206,8 @@ const Chat = () => {
           Send
         </button>
       </div>
+      {/* Render VideoCall component outside of the conditional rendering */}
+      {showVideoCall && <VideoCall />}
     </div>
   );
 };

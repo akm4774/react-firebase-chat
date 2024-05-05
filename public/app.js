@@ -71,6 +71,22 @@ async function createRoom() {
   document.querySelector(
       '#currentRoom').innerText = `Current room is ${roomRef.id} - You are the caller!`;
   // Code for creating a room above
+// Copy button logic
+const copyBtn = document.querySelector('#copyBtn');
+const roomIdDisplay = document.querySelector('#roomIdDisplay');
+roomIdDisplay.textContent = roomId;
+
+copyBtn.addEventListener('click', () => {
+    // Copy room ID to clipboard
+    const roomKey = roomIdDisplay.textContent;
+    const tempInput = document.createElement('input');
+    tempInput.value = roomKey;
+    document.body.appendChild(tempInput);
+    tempInput.select();
+    document.execCommand('copy');
+    document.body.removeChild(tempInput);
+    console.log('Room ID copied to clipboard');
+});
 
   peerConnection.addEventListener('track', event => {
     console.log('Got remote track:', event.streams[0]);
@@ -235,6 +251,7 @@ async function hangUp(e) {
     });
     await roomRef.delete();
   }
+  window.close();
 
   document.location.reload(true);
 }

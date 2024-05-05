@@ -16,6 +16,11 @@
     <script defer src="/__/firebase/init.js?useEmulator=true"></script>
 
     <link rel="stylesheet" type="text/css" href="main.css">
+    <style>
+        #roomKey {
+            display: none;
+        }
+    </style>
 </head>
 <body>
 <h1>Welcome to FirebaseRTC!</h1>
@@ -37,6 +42,14 @@
         <span class="mdc-button__label">Hangup</span>
     </button>
 </div>
+<div id="roomKey">
+    Room ID: <span id="roomIdDisplay"></span>
+    <button class="mdc-button mdc-button--raised" id="copyBtn">
+        <i class="material-icons mdc-button__icon" aria-hidden="true">content_copy</i>
+        <span class="mdc-button__label">Copy Room ID</span>
+    </button>
+</div>
+
 <div>
     <span id="currentRoom"></span>
 </div>
@@ -75,5 +88,33 @@
     <div class="mdc-dialog__scrim"></div>
 </div>
 <script src="app.js"></script>
+<script>
+    function showRoomKey() {
+        document.getElementById('roomKey').style.display = 'block';
+    }
+
+    function hideRoomKey() {
+        document.getElementById('roomKey').style.display = 'none';
+    }
+
+    function copyRoomId() {
+        const roomKey = document.getElementById('roomIdDisplay').textContent;
+        navigator.clipboard.writeText(roomKey).then(() => {
+            console.log('Room ID copied to clipboard');
+        }).catch(err => {
+            console.error('Failed to copy room ID: ', err);
+        });
+    }
+
+    // Add event listener to the Copy Room ID button
+    document.getElementById('copyBtn').addEventListener('click', copyRoomId);
+
+    // Add event listener to the Create Room button
+    document.getElementById('createBtn').addEventListener('click', showRoomKey);
+
+    // Example of hiding the room key initially
+    hideRoomKey();
+</script>
+
 </body>
 </html>
