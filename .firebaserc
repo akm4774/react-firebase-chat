@@ -1,0 +1,9 @@
+{
+  "projects": {
+    "default": "fir-rtc-89b99",
+    "videocall": "reactchat-80ff9",
+    "video": "reactchat-80ff9"
+  },
+  "targets": {},
+  "etags": {}
+}
