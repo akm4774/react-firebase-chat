@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./login.css";
 import { toast } from "react-toastify";
 import {
@@ -18,6 +18,22 @@ const Login = () => {
 
   const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    // Function to parse URL parameters
+    const getUrlParameter = (name) => {
+      name = name.replace(/[[]/, "\\[").replace(/[\]]/, "\\]");
+      const regex = new RegExp("[\\?&]" + name + "=([^&#]*)");
+      const results = regex.exec(window.location.search);
+      return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+    };
+
+    // Fetch JWT token from URL parameters
+    const jwtToken = getUrlParameter("token");
+
+    // Handle JWT token as needed (e.g., store it in state, local storage, etc.)
+    console.log("JWT Token:", jwtToken);
+  }, []);
+
   const handleAvatar = (e) => {
     if (e.target.files[0]) {
       setAvatar({
@@ -26,6 +42,9 @@ const Login = () => {
       });
     }
   };
+
+  // Remaining code for handleRegister and handleLogin functions
+
 
   const handleRegister = async (e) => {
     e.preventDefault();

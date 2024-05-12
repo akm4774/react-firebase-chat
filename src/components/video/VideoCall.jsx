@@ -10,7 +10,7 @@ const VideoCall = () => {
       .then((data) => {
         setHtmlContent(data);
         // Open the HTML content in a new window with the specified URL
-        window.open("http://localhost:5000");
+        window.open("https://reactchat-80ff9.web.app");
       })
       .catch((error) => {
         console.error("Error fetching HTML content:", error);
